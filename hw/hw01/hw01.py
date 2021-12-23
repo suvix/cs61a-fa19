@@ -2,6 +2,7 @@
 
 from operator import add, sub
 
+
 def a_plus_abs_b(a, b):
     """Return a+abs(b), but without calling abs.
 
@@ -11,10 +12,11 @@ def a_plus_abs_b(a, b):
     5
     """
     if b < 0:
-        f = _____
+        f = sub
     else:
-        f = _____
+        f = add
     return f(a, b)
+
 
 def two_of_three(a, b, c):
     """Return x*x + y*y, where x and y are the two largest members of the
@@ -29,7 +31,8 @@ def two_of_three(a, b, c):
     >>> two_of_three(5, 5, 5)
     50
     """
-    return _____
+    return (a > b and c > b and (a * a + c * c)) or (a > c and b > c and (a * a + b * b)) or (b * b + c * c)
+
 
 def largest_factor(n):
     """Return the largest factor of n that is smaller than n.
@@ -41,7 +44,14 @@ def largest_factor(n):
     >>> largest_factor(13) # factor is 1 since 13 is prime
     1
     """
-    "*** YOUR CODE HERE ***"
+    largest_f = 1
+    k = 2
+    while (k < n):
+        if (n % k == 0):
+            largest_f = max(largest_f, k)
+        k += 1
+    return largest_f
+
 
 def if_function(condition, true_result, false_result):
     """Return true_result if condition is a true value, and
@@ -74,6 +84,7 @@ def with_if_statement():
     else:
         return f()
 
+
 def with_if_function():
     """
     >>> result = with_if_function()
@@ -84,14 +95,18 @@ def with_if_function():
     """
     return if_function(c(), t(), f())
 
+
 def c():
-    "*** YOUR CODE HERE ***"
+    return False
+
 
 def t():
-    "*** YOUR CODE HERE ***"
+    print(1)
+
 
 def f():
-    "*** YOUR CODE HERE ***"
+    print(2)
+
 
 def hailstone(n):
     """Print the hailstone sequence starting at n and return its
@@ -108,4 +123,14 @@ def hailstone(n):
     >>> a
     7
     """
-    "*** YOUR CODE HERE ***"
+    print(n)
+    k = 1
+    while n > 1:
+        if n % 2 == 0:
+            n = n // 2
+            print(n)
+        else:
+            n = n * 3 + 1
+            print(n)
+        k += 1
+    return k
