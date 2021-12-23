@@ -130,3 +130,7 @@ dmypy.json
 
 # .DS_Store
 .DS_Store
+
+# OK file
+.ok_history
+.ok_storage.db
