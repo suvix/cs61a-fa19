@@ -1,3 +1,4 @@
+from operator import sub, mul
 HW_SOURCE_FILE = __file__
 
 
@@ -23,6 +24,23 @@ def num_eights(pos):
     True
     """
     "*** YOUR CODE HERE ***"
+    if pos == 8:
+        return 1
+    elif pos < 10:
+        return 0
+    elif pos % 10 == 8:
+        return 1 + num_eights(pos // 10)
+    else:
+        return num_eights(pos // 10)
+
+
+def flag(n):
+    if n == 1:
+        return 1
+    elif n % 8 == 0 or '8' in str(n):
+        return 0 - flag(n - 1)
+    else:
+        return flag(n - 1)
 
 
 def pingpong(n):
@@ -59,6 +77,10 @@ def pingpong(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n == 1:
+        return 1
+    else:
+        return pingpong(n - 1) + flag(n - 1)
 
 
 def missing_digits(n):
@@ -89,6 +111,12 @@ def missing_digits(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return 0
+    elif n % 10 - n // 10 % 10 > 1:
+        return missing_digits(n // 10) + n % 10 - n // 10 % 10 - 1
+    else:
+        return missing_digits(n // 10)
 
 
 def ascending_coin(coin):
@@ -127,6 +155,18 @@ def descending_coin(coin):
         return 1
 
 
+def count_coins_helper(change, max_coin):
+    if change == 0:
+        return 1
+    elif change < 0:
+        return 0
+    elif max_coin <= 0:
+        return 0
+    elif max_coin == 1:
+        return 1
+    return count_coins_helper(change - max_coin, max_coin) + count_coins_helper(change, descending_coin(max_coin))
+
+
 def count_coins(change):
     """Return the number of ways to make change using coins of value of 1, 5, 10, 25.
     >>> count_coins(15)
@@ -145,6 +185,14 @@ def count_coins(change):
     True
     """
     "*** YOUR CODE HERE ***"
+    if change >= 25:
+        return count_coins_helper(change, 25)
+    elif change >= 10:
+        return count_coins_helper(change, 10)
+    elif change >= 5:
+        return count_coins_helper(change, 5)
+    else:
+        return 1
 
 
 def print_move(origin, destination):
@@ -181,9 +229,6 @@ def move_stack(n, start, end):
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
-
-
-from operator import sub, mul
 
 
 def make_anonymous_factorial():
