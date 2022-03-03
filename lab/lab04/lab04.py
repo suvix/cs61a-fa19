@@ -20,6 +20,9 @@ def summation(n, term):
     """
     assert n >= 1
     "*** YOUR CODE HERE ***"
+    if n == 1:
+        return term(n)
+    return term(n) + summation(n - 1, term)
 
 
 def pascal(row, column):
@@ -35,6 +38,11 @@ def pascal(row, column):
     6
     """
     "*** YOUR CODE HERE ***"
+    if row == 0 and column == 0:
+        return 1
+    if column > row or row < 0 or column < 0:
+        return 0
+    return pascal(row - 1, column) + pascal(row - 1, column - 1)
 
 
 def paths(m, n):
@@ -51,6 +59,9 @@ def paths(m, n):
     1
     """
     "*** YOUR CODE HERE ***"
+    if m == 1 or n == 1:
+        return 1
+    return paths(m, n - 1) + paths(m - 1, n)
 
 
 def couple(s, t):
@@ -67,6 +78,7 @@ def couple(s, t):
     """
     assert len(s) == len(t)
     "*** YOUR CODE HERE ***"
+    return [[x, t[ind]] for ind, x in enumerate(s)]
 
 
 def coords(fn, seq, lower, upper):
