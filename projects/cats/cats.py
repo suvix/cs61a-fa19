@@ -30,7 +30,13 @@ def choose(paragraphs, select, k):
     ''
     """
     # BEGIN PROBLEM 1
-    "*** YOUR CODE HERE ***"
+    i = 0
+    for x in paragraphs:
+        if select(x):
+            if i == k:
+                return x
+            i += 1
+    return ''
     # END PROBLEM 1
 
 
@@ -49,7 +55,16 @@ def about(topic):
     """
     assert all([lower(x) == x for x in topic]), 'topics should be lowercase.'
     # BEGIN PROBLEM 2
-    "*** YOUR CODE HERE ***"
+
+    def func(p):
+        p = [remove_punctuation(lower(x)) for x in split(p)]
+        for x in topic:
+            for y in p:
+                if x == y:
+                    return True
+        return False
+    return func
+
     # END PROBLEM 2
 
 
@@ -80,6 +95,18 @@ def accuracy(typed, reference):
     reference_words = split(reference)
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
+    if reference == "" and typed == "":
+        return 100.0
+    elif reference != "" and typed == "":
+        return 0.0
+    i = 0
+    c = 0  # count number of correct words
+    for x in typed_words:
+        if i < len(reference_words) and x == reference_words[i]:
+            c += 1
+        i += 1
+    return c / len(typed_words) * 100
+
     # END PROBLEM 3
 
 
@@ -98,6 +125,7 @@ def wpm(typed, elapsed):
     assert elapsed > 0, 'Elapsed time must be positive'
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
+    return len(typed) / 5 / elapsed * 60
     # END PROBLEM 4
 
 
@@ -272,8 +300,10 @@ def fastest_words(match):
     >>> p1
     [4, 1, 6]
     """
-    player_indices = range(len(get_times(match)))  # contains an *index* for each player
-    word_indices = range(len(get_words(match)))    # contains an *index* for each word
+    player_indices = range(len(get_times(match))
+                           )  # contains an *index* for each player
+    # contains an *index* for each word
+    word_indices = range(len(get_words(match)))
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
     # END PROBLEM 10
@@ -292,10 +322,14 @@ def match(words, times):
         words: ['Hello', 'world']
         times: [[5, 1], [4, 2]]
     """
-    assert all([type(w) == str for w in words]), 'words should be a list of strings'
-    assert all([type(t) == list for t in times]), 'times should be a list of lists'
-    assert all([isinstance(i, (int, float)) for t in times for i in t]), 'times lists should contain numbers'
-    assert all([len(t) == len(words) for t in times]), 'There should be one word per time.'
+    assert all([type(w) == str for w in words]
+               ), 'words should be a list of strings'
+    assert all([type(t) == list for t in times]
+               ), 'times should be a list of lists'
+    assert all([isinstance(i, (int, float))
+               for t in times for i in t]), 'times lists should contain numbers'
+    assert all([len(t) == len(words) for t in times]
+               ), 'There should be one word per time.'
     return [words, times]
 
 
@@ -337,7 +371,7 @@ enable_multiplayer = False  # Change to True when you're ready to race.
 def run_typing_test(topics):
     """Measure typing speed and accuracy on the command line."""
     paragraphs = lines_from_file('data/sample_paragraphs.txt')
-    select = lambda p: True
+    def select(p): return True
     if topics:
         select = about(topics)
     i = 0
