@@ -153,6 +153,13 @@ def autocorrect(typed_word, valid_words, diff_function, limit):
     """
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+    if typed_word in valid_words:
+        return typed_word
+    min_word = min(valid_words, key=lambda k: diff_function(
+        typed_word, k, limit))  # amazing:)
+    if diff_function(typed_word, min_word, limit) > limit:
+        return typed_word
+    return min_word
     # END PROBLEM 5
 
 
@@ -179,7 +186,18 @@ def feline_flips(start, goal, limit):
     5
     """
     # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
+    if start == goal:
+        return 0
+    elif limit == 0:
+        return 1
+    elif start == '':
+        return len(goal)
+    elif goal == '':
+        return len(start)
+    elif start[0] != goal[0]:
+        return 1 + feline_flips(start[1:], goal[1:], limit - 1)
+    else:
+        return feline_flips(start[1:], goal[1:], limit)
     # END PROBLEM 6
 
 
@@ -200,25 +218,20 @@ def minimum_mewtations(start, goal, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    assert False, 'Remove this line'
 
-    if ______________:  # Fill in the condition
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
-
-    elif ___________:  # Feel free to remove or add additional cases
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
-
+    if start == goal:
+        return 0
+    elif limit == 0:
+        return 1
+    elif start == '' or goal == '':
+        return abs(len(start) - len(goal))
+    elif start[0] == goal[0]:
+        return minimum_mewtations(start[1:], goal[1:], limit)
     else:
-        add = ...  # Fill in these lines
-        remove = ...
-        substitute = ...
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+        add = minimum_mewtations(start, goal[1:], limit - 1)
+        remove = minimum_mewtations(start[1:], goal, limit - 1)
+        substitute = minimum_mewtations(start[1:], goal[1:], limit - 1)
+        return 1 + min(add, remove, substitute)  # amazing step!
 
 
 def final_diff(start, goal, limit):
