@@ -274,6 +274,15 @@ def report_progress(sofar, prompt, user_id, upload):
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
     # END PROBLEM 8
+    i = 0
+    while i < len(sofar):
+        if sofar[i] == prompt[i]:
+            i += 1
+        else:
+            break
+    ratio = i / len(prompt)
+    upload({'id': user_id, 'progress': ratio})
+    return ratio
 
 
 def time_per_word(words, times_per_player):
