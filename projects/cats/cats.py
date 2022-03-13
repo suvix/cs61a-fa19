@@ -304,6 +304,18 @@ def time_per_word(words, times_per_player):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    i = 0
+    times = []
+    while i < len(times_per_player):
+        cur = []
+        j = 0
+        cur_times_player = times_per_player[i]
+        while j < len(cur_times_player) - 1:
+            cur += [cur_times_player[j+1] - cur_times_player[j]]
+            j += 1
+        times.append(cur)
+        i += 1
+    return match(words, times)
     # END PROBLEM 9
 
 
