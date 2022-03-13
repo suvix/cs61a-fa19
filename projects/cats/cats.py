@@ -344,8 +344,8 @@ def fastest_words(match):
     fw = [[] for _ in times]
     i = 0
     while i < len(words):
-        player = 0
-        j = 0  # iterate through every player time at word i
+        player = 0  # fastest player index of words[i]
+        j = 0  # iterate through every player time to compare
         while j < len(times):
             if times[j][i] < times[player][i]:
                 player = j
