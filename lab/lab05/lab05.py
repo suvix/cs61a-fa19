@@ -1,3 +1,6 @@
+from math import sqrt
+
+
 def factors_list(n):
     """Return a list containing all the numbers that divide `n` evenly, except
     for the number itself. Make sure the list is in ascending order.
@@ -11,6 +14,12 @@ def factors_list(n):
     """
     all_factors = []
     "*** YOUR CODE HERE ***"
+    i = 1
+    while i <= n // 2:
+        if n % i == 0:
+            all_factors += [i]
+        i += 1
+    return all_factors
 
 
 def flatten(s):
@@ -30,9 +39,12 @@ def flatten(s):
     [[1, [1, 1]], 1, [1, 1]]
     """
     "*** YOUR CODE HERE ***"
-
-
-from math import sqrt
+    if s == []:
+        return []
+    elif type(s[0]) != list:
+        return [s[0]] + flatten(s[1:])
+    else:
+        return flatten(s[0]) + flatten(s[1:])
 
 
 def distance(city_a, city_b):
@@ -47,6 +59,11 @@ def distance(city_a, city_b):
     5.0
     """
     "*** YOUR CODE HERE ***"
+    x1 = get_lat(city_a)
+    y1 = get_lon(city_a)
+    x2 = get_lat(city_b)
+    y2 = get_lon(city_b)
+    return sqrt((x1 - x2)**2 + (y1 - y2)**2)
 
 
 def closer_city(lat, lon, city_a, city_b):
@@ -65,6 +82,13 @@ def closer_city(lat, lon, city_a, city_b):
     'Bucharest'
     """
     "*** YOUR CODE HERE ***"
+    city_target = make_city('target', lat, lon)
+    distance_a = distance(city_a, city_target)
+    distance_b = distance(city_b, city_target)
+    if distance_a < distance_b:
+        return get_name(city_a)
+    else:
+        return get_name(city_b)
 
 
 def check_city_abstraction():
@@ -164,6 +188,9 @@ def berry_finder(t):
     True
     """
     "*** YOUR CODE HERE ***"
+    if label(t) == 'berry':
+        return True
+    return True in [berry_finder(b) for b in branches(t)]
 
 
 def sprout_leaves(t, leaves):
@@ -200,6 +227,16 @@ def sprout_leaves(t, leaves):
           2
     """
     "*** YOUR CODE HERE ***"
+    # label(tree): returns the value in the root node of tree.
+    # branches(tree): returns the list of branches of the given tree.
+    # Convenience function
+    # is_leaf(tree): returns True if tree's list of branches is empty, and False otherwise.
+    if is_leaf(t):
+        return tree(label(t), [tree(l) for l in leaves])
+    else:
+        r = [sprout_leaves(b, leaves) for b in branches(t)]
+    return tree(label(t), r)
+
 
 # Abstraction tests for sprout_leaves and berry_finder
 
