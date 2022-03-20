@@ -1,4 +1,8 @@
 HW_SOURCE_FILE = __file__
+# A mobile must have both a left arm and a right arm.
+# An arm has a positive length and must have something hanging at the end,
+# either a mobile or planet.
+# A planet has a positive size, and nothing hanging from it.
 
 
 def mobile(left, right):
@@ -52,12 +56,14 @@ def planet(size):
     """Construct a planet of some size."""
     assert size > 0
     "*** YOUR CODE HERE ***"
+    return ['planet', size]
 
 
 def size(w):
     """Select the size of a planet."""
     assert is_planet(w), 'must call size on a planet'
     "*** YOUR CODE HERE ***"
+    return w[1]
 
 
 def is_planet(w):
@@ -70,7 +76,7 @@ def examples():
                arm(2, planet(1)))
     u = mobile(arm(5, planet(1)),
                arm(1, mobile(arm(2, planet(3)),
-                              arm(3, planet(2)))))
+                             arm(3, planet(2)))))
     v = mobile(arm(4, t), arm(2, u))
     return (t, u, v)
 
@@ -118,6 +124,16 @@ def balanced(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_planet(m):
+        return True
+
+    l_arm = left(m)
+    r_arm = right(m)
+
+    if total_weight(end(l_arm)) * length(l_arm) != total_weight(end(r_arm)) * length(r_arm):
+        return False
+    if is_mobile(m):
+        return balanced(end(l_arm)) and balanced(end(r_arm))
 
 
 def totals_tree(m):
@@ -150,6 +166,9 @@ def totals_tree(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_planet(m):
+        return tree(size(m))
+    return tree(total_weight(m), [totals_tree(end(left(m))), totals_tree(end(right(m)))])
 
 
 def replace_loki_at_leaf(t, lokis_replacement):
@@ -182,6 +201,9 @@ def replace_loki_at_leaf(t, lokis_replacement):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_leaf(t) and label(t) == 'loki':
+        t = tree(lokis_replacement)
+    return tree(label(t), [replace_loki_at_leaf(b, lokis_replacement) for b in branches(t)])
 
 
 def has_path(t, word):
@@ -216,6 +238,12 @@ def has_path(t, word):
     """
     assert len(word) > 0, 'no path for empty word.'
     "*** YOUR CODE HERE ***"
+    if label(t) == word:
+        return True
+    elif label(t) == word[0]:
+        return True in [has_path(b, word[1:]) for b in branches(t)]
+    else:
+        return False
 
 
 def preorder(t):
