@@ -126,14 +126,11 @@ def balanced(m):
     "*** YOUR CODE HERE ***"
     if is_planet(m):
         return True
-
     l_arm = left(m)
     r_arm = right(m)
-
-    if total_weight(end(l_arm)) * length(l_arm) != total_weight(end(r_arm)) * length(r_arm):
-        return False
-    if is_mobile(m):
-        return balanced(end(l_arm)) and balanced(end(r_arm))
+    return balanced(end(l_arm)) and balanced(end(r_arm)) and \
+        total_weight(end(l_arm)) * length(l_arm) == \
+        total_weight(end(r_arm)) * length(r_arm)
 
 
 def totals_tree(m):
@@ -257,6 +254,10 @@ def preorder(t):
     [2, 4, 6]
     """
     "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        return [label(t)]
+    # the second argument in the sum function actions properly for preorder
+    return sum([preorder(b) for b in branches(t)], [label(t)])
 
 
 def str_interval(x):
