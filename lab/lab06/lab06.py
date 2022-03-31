@@ -28,6 +28,13 @@ def insert_items(lst, entry, elem):
     True
     """
     "*** YOUR CODE HERE ***"
+    i = 0
+    while i < len(lst):
+        if lst[i] == entry:
+            lst.insert(i + 1, elem)
+            i += 1
+        i += 1
+    return lst
 
 
 def count_occurrences(t, n, x):
@@ -51,6 +58,13 @@ def count_occurrences(t, n, x):
     2
     """
     "*** YOUR CODE HERE ***"
+    i = 0
+    counter = 0
+    while i < n:
+        if next(t) == x:
+            counter += 1
+        i += 1
+    return counter
 
 
 def repeated(t, k):
@@ -76,3 +90,14 @@ def repeated(t, k):
     """
     assert k > 1
     "*** YOUR CODE HERE ***"
+    cur = next(t)
+    count = 1
+    while True:
+        temp = next(t)
+        if temp == cur:
+            count += 1
+        else:
+            cur = temp
+            count = 1
+        if count == k:
+            return cur
