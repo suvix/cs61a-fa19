@@ -21,6 +21,13 @@ def gen_perms(seq):
     [['a', 'b'], ['b', 'a']]
     """
     "*** YOUR CODE HERE ***"
+    seq = list(seq)
+    if len(seq) < 2:
+        yield seq
+    else:
+        for perm in gen_perms(seq[1:]):
+            for i in range(len(seq)):
+                yield perm[:i] + [seq[0]] + perm[i:]
 
 
 def path_yielder(t, value):
@@ -58,9 +65,12 @@ def path_yielder(t, value):
     [[0, 2], [0, 2, 1, 2]]
     """
     "*** YOUR CODE HERE ***"
-    for _______________ in _________________:
-        for _______________ in _________________:
+    if label(t) == value:
+        yield [label(t)]
+    for b in branches(t):
+        for path in path_yielder(b, value):
             "*** YOUR CODE HERE ***"
+            yield [label(t)] + path
 
 
 def preorder(t):
@@ -74,6 +84,9 @@ def preorder(t):
     [2, 4, 6]
     """
     "*** YOUR CODE HERE ***"
+    if t.is_leaf():
+        return [label(t)]
+    return sum([preorder(b) for b in branches(t)], [label(t)])
 
 
 def generate_preorder(t):
@@ -88,6 +101,10 @@ def generate_preorder(t):
     [2, 3, 4, 5, 6, 7]
     """
     "*** YOUR CODE HERE ***"
+    yield label(t)
+    for b in branches(t):
+        # elegant usage of yield from
+        yield from generate_preorder(b)
 
 
 def remainders_generator(m):
@@ -161,9 +178,9 @@ class Tree:
 
 
 tree = lambda label, branches=[]: Tree(label, branches)
-label = lambda t: t.label
-branches = lambda t: t.branches
-print_tree = lambda t: print(t)
+def label(t): return t.label
+def branches(t): return t.branches
+def print_tree(t): return print(t)
 
 
 def naturals():
